@@ -8,7 +8,7 @@ $string yesorno YES
 /load the parameter from a csv file with the same name
 
 /load parameters written in the csv file, copied this from Maedeh's script
-$OPEN 0 para_phi.csv
+$OPEN 0 para_phi.csv read
 $CONSTANT #input openstream
 $READ #input #par_MV #par_x0 #par_y0 #par_z0 #par_B0x #par_B0y #par_B0z
 $CLOSE #input
