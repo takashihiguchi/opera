@@ -1,0 +1,50 @@
+/import
+
+/readin
+$open 0 gfit3_cyclotron_on_rawdata_all_z_above_platform.csv read
+$CONSTANT #input openstream
+
+
+
+$ read #input #g0n1 #g00 #g01 #g1n2 #g1n1 #g10 #g11 #g12 #g2n3 #g2n2 #g2n1 #g20 #g21 #g22 #g23 #g3n4 #g3n3 #g3n2 #g3n1 #g30 #g31 #g32 #g33 #g34
+
+$close #input
+
+
+VARIABLE OPTION=PARAMETER, NAME=#LE, VALUE=500, DESCRIPTION='length of mother volume'
+BLOCK Name='Block1' X0=-#LE Y0=-#LE Z0=-#LE X1=#LE Y1=#LE Z1=#LE MATERIALLABEL='a' LEVEL=2
+
+
+PICK OPTION=ADD PROPERTY=UniqueName LABEL=Block1
+CELLDATA OPTION=MODIFY POTENTIAL=total ELEMENTTYPE=Linear size=20 ELEMSHAPEPREF=NONE
+
+PICK OPTION=TOGGLE TYPE=FACE UNIQUEBODYNAME='Block1' IDENTIFIER=A.00001
+PICK OPTION=TOGGLE TYPE=FACE UNIQUEBODYNAME='Block1' IDENTIFIER=A.00002
+PICK OPTION=TOGGLE TYPE=FACE UNIQUEBODYNAME='Block1' IDENTIFIER=A.00003
+PICK OPTION=TOGGLE TYPE=FACE UNIQUEBODYNAME='Block1' IDENTIFIER=A.00004
+PICK OPTION=TOGGLE TYPE=FACE UNIQUEBODYNAME='Block1' IDENTIFIER=A.00005
+PICK OPTION=TOGGLE TYPE=FACE UNIQUEBODYNAME='Block1' IDENTIFIER=A.00006
+
+
+/boundary
+
+FACEDATA OPTION=MODIFY BOUNDARYLABEL='sides' ELEMENTTYPE=Linear FORMETHOD=NONE BACKMETHOD=NONE
+BOUNDARY UNPICK | BOUNDARY GUIINIT
+BOUNDARY PICK 'sides'
+BOUNDARY OPTION=MODIFY CONDITION=potential MPOTENTIAL=-(((#g0n1)*(y))+((#g00)*(z))+((#g01)*(x))+((#g1n2)*(x*y))+((#g1n1)*(y*z))+((#g10)*((2*z*z)-(x*x)-(y*y))/4)+((#g11)*(x*z))+((#g12)*((x*x)-(y*y)))+((#g2n3)*((3*x*x*y)-((y**3)/3)))+((#g2n2)*(2*x*y*z))+((#g2n1)*(y)*((4*z*z)-(x*x)-(y*y))/4)+((#g20)*((z/6)*((2*z*z)-(3*x*x)-(3*y*y))))+((#g21)*x*((4*z*z)-(x*x)-(y*y))/4)+((#g22)*z*((x*x)-(y*y)))+((#g23)*((x**3)-(3*x*y*y)))+((#g3n4)*((y*(x**3))-(x*(y**3))))+((#g3n3)*z*((3*x*x*y)-(y**3)))+((#g3n2)*x*y*((6*z*z)-(x*x)-(y*y))/2)+((#g3n1)*y*z*((4*z*z)-(3*x*x)-(3*y*y))/4)+((#g30)*((3*(x**4)/32)+(3*(x**2)*(y**2)/16)-(3*(x**2)*(z**2)/4)+(3*(y**4)/32)-(3*(y**2)*(z**2)/4)+((z**4)/4)))+((#g31)*(x*z)*((4*z*z)-(3*x*x)-(3*y*y))/4)+((#g32)*((-(x**4)/4)+(3*(x**2)*(z**2)/2)+((y**4)/4)-(3*(y**2)*(z**2)/2)))+((#g33)*z*((x**3)-(3*x*y*y)))+((#g34)*((y**4)+(x**4)-(6*x*x*y*y))/4))
+
+
+ANALYSISDATA OPTION=ACTIVATE PROGRAM=TOSCAMAGN | ANALYSISDATA OPTION=LOAD PROGRAM=TOSCAMAGN | DBCASEDATA OPTION=LOAD PROGRAM=TOSCAMAGN
+ANALYSISDATA OPTION=SET PROGRAM=TOSCAMAGN LINEAR=YES CONVTOL=1.0E-08 HX=0 HY=0 HZ=0 SCALEDRIVE='ALL' RHS=ADAPTIVE POTENTIALCUT=YES USEDEFORMEDMESH=NO
+
+BACKGROUND OPTION=SET SHAPE=TRIM XYSYMMETRYPLANE=NO YZSYMMETRYPLANE=NO ZXSYMMETRYPLANE=NO ROTZNUM=1
+model create
+
+
+MESH  SIZE=20 NORMALTOL=30.0 SURFACETOL=0.0 TOLERANCE=1.0E-07 TYPE=PREFERTETRA 
+
+FILL TOL=1.0E-07
+
+SOLVERS SOLVENOW=YES SAVEMODEL=YES, | SOLVERS OPTION=TEST FILE='3rd_order_gradients_cyclotron_on_z_above_platform_new' UNITS=CGS ELEMENT=MIXED SURFACE=CURVED | COMMENT CLEAR=YES TYPE=DBTITLE | SOLVERS OPTION=OVERWRITE
+
+

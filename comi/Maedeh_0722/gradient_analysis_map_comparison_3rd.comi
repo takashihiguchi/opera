@@ -1,0 +1,56 @@
+$constant #a 1
+
+/UNITS LENGTH=CM FLUX=TESLA FIELD=AM SCALAR=AMPERE VECTOR=WBM DISPLACEMENT=CM2 ELECTRIC=VM CONDUCTIVITY=SM EPOTENTIAL=VOLT CURD=AM2 CHARGEDENSITY=MCM3 POWER=WATT FORCE=NEWTON ENERGY=JOULE MASS=KG PRESSURE=PASCAL
+ACTIVATE CASE=1 MODELSYMMETRY=DATABASE FILE='3rd_order_gradient_cyclotron_on_map_all_above_100_parameter.op3' | LOAD
+
+$ open 0 cyclotron_on_rawdata_all_z_above_platform.txt read
+$ constant #input openstream
+/ Read the first line into user variable #np
+/ Open output file for writing and find stream number
+$ open 0 fields_3rd_order_gradients_cyclotron_on_z_above_platform_parameter.dat overwrite
+$ constant #output openstream
+
+
+/ Define a string format to space the output
+$ format 1 string
+/ Define a floating point format
+$ format 2 exponential 10
+$format 3 Character 0 +variable
+
+/ Assign format numbers for the output
+$ assign 3 1 3 1 3 1 3 1 3 1 3 1 3 1 3 1 3
+/ Start a loop from 1 to #np
+
+$Constant #temp 0
+$Constant #temp2 0
+$string Uname u_pos
+$string Vname v_pos
+$string Wname w_pos
+
+$string Buname Bu_opera 
+
+$string Bvname Bv_opera
+
+$string Bwname Bw_opera
+
+$string Bumapname Bumap
+$string Bvmapname Bvmap
+$string Bwmapname Bwmap
+
+$ read #input #temp #temp2 #temp #temp2 #temp #temp2 #temp #temp2 #temp #temp2 #temp #temp2 #temp #temp2 #temp #temp2 #temp #temp2 
+$ write #output Uname Vname Wname Buname Bvname Bwname Bumapname Bvmapname Bwmapname
+$ assign 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2
+$ERRORHANDLER STATE=yes
+$while #a
+/ Read #x and #y from input file
+$ read #input #temp #temp2 #temp4 #temp3 #u #v #w #B_u #dB_u #B_v #dB_v #B_w #dB_w #x #y #z #Bxmap  #Bymap  #Bzmap 
+$breakerror
+/ Evaluate fields at #x #y
+point xp=#x yp=#y zp=#z
+/ Write coordinates and flux density to output file
+$ write #output x y z bx by bz #Bxmap #Bymap #Bzmap
+/ End of loop
+$ end while
+/ Close files
+$ close #input
+$ close #output
