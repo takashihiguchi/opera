@@ -1,0 +1,12 @@
+CONDUCTOR
+DEFINE GRACETRACK
+#XC 0.0 0.0 0.0 0.0 0.0
+0.0 #YC #ZC
+0.0 90.0 0.0
+1.0 1.0
+#LC/2.0+1.0 -0.5
+#LC/2.0-1.0 2.0
+#IC 1 'xp_coil'
+0 0 0
+0.001
+QUIT
