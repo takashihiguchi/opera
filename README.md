@@ -11,4 +11,5 @@
 
 ## D4: implemented a coil with different dimensions to see the magnetic field response by a current applied in it
 
+## D6: realized implementation of dipole field by making a shell on the edge of the exterior. 
 
