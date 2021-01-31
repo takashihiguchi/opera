@@ -1,0 +1,4 @@
+$STRING test 'test1/'
+$IF %FILECOUNT('&test&')==0
+$ OS mkdir '&test&'
+$END IF
