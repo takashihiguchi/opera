@@ -7,7 +7,7 @@ CLEAR REVERT=NO
 $string yesorno YES 
 
 //====== LOAD MANGETIC SCALAR PARAMETERS  ========
-$OPEN 0 para_phi_0101b0.csv read
+$OPEN 0 para_phi_0203b1.csv read
 $CONSTANT #input openstream
 $READ #input #par_MV #par_x0 #par_y0 #par_z0 #par_B0x #par_B0y #par_B0z
 $CLOSE #input
