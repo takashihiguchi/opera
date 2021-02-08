@@ -1,0 +1,6 @@
+/ Opera-3d Modeller
+/ Opera 18R2 [Build 36152] RHEL7
+/ Started: 01/Dec/2020 02:32:04
+/ Node: joy-rcnp-osaka-u-ac-jp. Processor: x86_64. System: Linux 3.10.0-1127.19.1.el7.x86_64 (#1 SMP Thu Aug 20 14:39:03 CDT 2020)
+LOAD FILE='/home/thiguchi/work/opera/201201_comb_LE500/D_zero_-1000A_-1000A_mu_1E5_MB_R_LE_500_LES_510_SHELL.opc' OPTION=NEW
+$OS OPERAANL WRD2=SOLVE WRD4=BACK WRD3='/home/thiguchi/work/opera/201201_comb_LE500/D_zero_-1000A_-1000A_mu_1E5_MB_R_LE_500_LES_510_SHELL.op3'
